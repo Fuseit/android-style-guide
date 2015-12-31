@@ -3,14 +3,14 @@
 ----------
 
 # Table of Contents
-[Android Studio Guide](# 1. Android Studio Guide)
-	[Android SDK](## 1.1 Android SDK)
-	[Build System](## 1.2 Build system)
-[Project Guide](# 2. Project Guide)
-	[Project Structure](## 2.1 Project structure)
-	[Gradle Configuration](## 2.2 Gradle configuration)
-	[Proguard configuration](## 2.3 Proguard configuration)
-	[Libraries](## 2.4 Libraries)
+- [Android Studio Guide](# 1. Android Studio Guide)
+	- [Android SDK](## 1.1 Android SDK)
+	- [Build System](## 1.2 Build system)
+- [Project Guide](# 2. Project Guide)
+	- [Project Structure](## 2.1 Project structure)
+	- [Gradle Configuration](## 2.2 Gradle configuration)
+	- [Proguard configuration](## 2.3 Proguard configuration)
+	- [Libraries](## 2.4 Libraries)
 
 
 
