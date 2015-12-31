@@ -2,13 +2,27 @@
 
 ----------
 
+# Table of Contents
+[Android Studio Guide](# 1. Android Studio Guide)
+	[Android SDK](## 1.1 Android SDK)
+	[Build System](## 1.2 Build system)
+[Project Guide](# 2. Project Guide)
+	[Project Structure](## 2.1 Project structure)
+	[Gradle Configuration](## 2.2 Gradle configuration)
+	[Proguard configuration](## 2.3 Proguard configuration)
+	[Libraries](## 2.4 Libraries)
+
+
+
+----------
+
 # 1. Android Studio Guide
 
 ## 1.1 Android SDK
 
 Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. Some IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, or when changing IDEs. Also avoid putting the SDK in another system-level directory that might need sudo permissions, if your IDE is running under your user and not under root.
 
-## 1.2 Build system
+## 1.2 Build System
 
 Your default option should be [Gradle](http://tools.android.com/tech-docs/new-build-system). Ant is much more limited and also more verbose. With Gradle, it's simple to:
 
@@ -20,9 +34,9 @@ Your default option should be [Gradle](http://tools.android.com/tech-docs/new-bu
 
 Android's Gradle plugin is also being actively developed by Google as the new standard build system.
 
-### 2. Project Guide
+# 2. Project Guide
 
-## 2.1 Project structure
+## 2.1 Project Structure
 
 There are two popular options: the old Ant & Eclipse ADT project structure, and the new Gradle & Android Studio project structure. At Fuse we use the new structure.
 
@@ -67,7 +81,7 @@ The main difference is that the new structure explicitly separates 'source sets'
 
 Having a top-level `app` is useful to distinguish your app from other library projects (e.g., `library-foobar`) that will be referenced in your app. The `settings.gradle` then keeps references to these library projects, which `app/build.gradle` can reference to.
 
-## 2.2 Gradle configuration
+## 2.2 Gradle Configuration
 
 **General structure.** Follow [Google's guide on Gradle for Android](http://tools.android.com/tech-docs/new-build-system/user-guide)
 
