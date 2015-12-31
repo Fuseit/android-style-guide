@@ -3,14 +3,22 @@
 ----------
 
 # Table of Contents
-- [Android Studio Guide](#android-studio-guide)
-	- [Android SDK](#android-sdk)
-	- [Build System](#build-system)
-- [Project Guide](#project-guide)
-	- [Project Structure](#project-structure)
-	- [Gradle Configuration](#gradle-configuration)
-	- [Proguard configuration](#proguard-configuration)
-	- [Libraries](#libraries)
+- [Android Studio Guide](#1-android-studio-guide)
+	- [Android SDK](#11-android-sdk)
+	- [Build System](#12-build-system)
+- [Project Guide](#2-project-guide)
+	- [Project Structure](#21-project-structure)
+	- [Gradle Configuration](#22-gradle-configuration)
+	- [Proguard Configuration](#23-proguard-configuration)
+	- [Libraries](#24-libraries)
+	- [Activities and Fragments](#25-activities-and-fragments)
+	- [Java Packages Architecture](#26-java-packages-architecture)
+	- [Data Storage](#27-data-storage)
+		- [Shared Preferences](#271-shared-preferences)
+		- [Content Providers](#272-content-providers)
+- [File Naming](#3-file-naming)
+	- [Class Files](#31-class-files)
+	- [Resources Files](#32-resources-files)
 
 
 
@@ -139,7 +147,7 @@ dependencies {
 **Avoid Maven dynamic dependency resolution**
 Avoid the use of dynamically versioned, such as `2.1.+` as this may result in different and unstable builds or subtle, untracked differences in behavior between builds. The use of static versions such as `2.1.1` helps create a more stable, predictable and repeatable development environment.
 
-## 2.3 Proguard configuration
+## 2.3 Proguard Configuration
 
 [ProGuard](http://proguard.sourceforge.net/) is normally used on Android projects to shrink and obfuscate the packaged code.
 
@@ -243,7 +251,7 @@ Because of Android API's history, you can loosely consider Fragments as UI piece
 - Avoid putting too much code in activities. Whenever possible, keep them as lightweight containers, existing in your application primarily for the lifecycle and other important Android-interfacing APIs. Prefer single-fragment activities instead of plain activities - put UI code into the activity's fragment. This makes it reusable in case you need to change it to reside in a tabbed layout, or in a multi-fragment tablet screen. Avoid having an activity without a corresponding fragment, unless you are making an informed decision.
 - Don't abuse Android-level APIs such as heavily relying on Intent for your app's internal workings. You could affect the Android OS or other applications, creating bugs or lag. For instance, it is known that if your app uses Intents for internal communication between your packages, you might incur multi-second lag on user experience if the app was opened just after OS boot.
 
-## 2.6 Java packages architecture
+## 2.6 Java Packages Architecture
 
 Java architectures for Android applications can be roughly approximated in [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller). In Android, [Fragment and Activity are actually controller classes](http://www.informit.com/articles/article.aspx?p=2126865). On the other hand, they are explicity part of the user interface, hence are also views.
 
@@ -269,9 +277,9 @@ com.fuse.project
    └─ notifications
 ```
 
-## 2.7 Data storage
+## 2.7 Data Storage
 
-### 2.7.1 SharedPreferences
+### 2.7.1 Shared Preferences
 
 If you only need to persist simple flags and your application runs in a single process SharedPreferences is probably enough for you. It is a good default option.
 
@@ -280,7 +288,7 @@ There are two reasons why you might not want to use SharedPreferences:
 * *Performance*: Your data is complex or there is a lot of it
 * *Multiple processes accessing the data*: You have widgets or remote services that run in their own processes and require synchronized data
 
-### 2.7.2 ContentProviders
+### 2.7.2 Content Providers
 
 In the case SharedPreferences is not enough for you, you should use the platform standard ContentProviders, which are fast and process safe.
 
@@ -288,18 +296,18 @@ The single problem with ContentProviders is the amount of boilerplate code that 
 
 You still need to write some parsing code yourself to read the data objects from the Sqlite columns and vice versa. It is possible to serialize the data objects, for instance with Gson, and only persist the resulting string. In this way you lose in performance but on the other hand you do not need to declare a column for all the fields of the data class.
 
-# 3. File naming
+# 3. File Naming
 
-## 3.1 Class files
+## 3.1 Class Files
 Class names are written in [UpperCamelCase](http://en.wikipedia.org/wiki/CamelCase).
 
 For classes that extend an Android component, the name of the class should end with the name of the component; for example: `SignInActivity`, `SignInFragment`, `ImageUploaderService`, `ChangePasswordDialog`.
 
-## 3.2 Resources files
+## 3.2 Resources Files
 
 Resources file names are written in __lowercase_underscore__.
 
-#### 3.2.1 Drawable files
+### 3.2.1 Drawable Files
 
 Naming conventions for drawables:
 
@@ -336,7 +344,7 @@ Naming conventions for selector states:
 | Disabled     | `_disabled`     | `btn_order_disabled.9.png`  |
 | Selected     | `_selected`     | `btn_order_selected.9.png`  |
 
-#### 3.2.2 Layout files
+### 3.2.2 Layout Files
 
 Layout files should match the name of the Android components that they are intended for but moving the top level component name to the beginning. For example, if we are creating a layout for the `SignInActivity`, the name of the layout file should be `activity_sign_in.xml`.
 
@@ -352,21 +360,21 @@ A slightly different case is when we are creating a layout that is going to be i
 
 Note that there are cases where these rules will not be possible to apply. For example, when creating layout files that are intended to be part of other layouts. In this case you should use the prefix `partial_`.
 
-#### 3.2.3 Menu files
+### 3.2.3 Menu Files
 
 Similar to layout files, menu files should match the name of the component. For example, if we are defining a menu file that is going to be used in the `UserActivity`, then the name of the file should be `activity_user.xml`
 
 A good practice is to not include the word `menu` as part of the name because these files are already located in the `menu` directory.
 
-#### 3.2.4 Values files
+### 3.2.4 Values Files
 
 Resource files in the values folder should be __plural__, e.g. `strings.xml`, `styles.xml`, `colors.xml`, `dimens.xml`, `attrs.xml`
 
-# 4 Code guidelines
+# 4 Code Guidelines
 
-## 4.1 Java language rules
+## 4.1 Java Language Rules
 
-### 4.1.1 Don't ignore exceptions
+### 4.1.1 Don't Ignore Exceptions
 
 You must never do the following:
 
@@ -382,7 +390,7 @@ _While you may think that your code will never encounter this error condition or
 
 See alternatives [here](https://source.android.com/source/code-style.html#dont-ignore-exceptions).
 
-### 4.1.2 Don't catch generic exception
+### 4.1.2 Don't Catch Generic Exception
 
 You should not do this:
 
@@ -399,11 +407,11 @@ try {
 
 See the reason why and some alternatives [here](https://source.android.com/source/code-style.html#dont-catch-generic-exception)
 
-### 4.1.3 Don't use finalizers
+### 4.1.3 Don't Use Finalizers
 
 _We don't use finalizers. There are no guarantees as to when a finalizer will be called, or even that it will be called at all. In most cases, you can do what you need from a finalizer with good exception handling. If you absolutely need it, define a `close()` method (or the like) and document exactly when that method needs to be called. See `InputStream` for an example. In this case it is appropriate but not required to print a short log message from the finalizer, as long as it is not expected to flood the logs._ - ([Android code style guidelines](https://source.android.com/source/code-style.html#dont-use-finalizers))
 
-### 4.1.4 Fully qualify imports
+### 4.1.4 Fully Qualify Imports
 
 This is bad: `import foo.*;`
 
@@ -411,9 +419,9 @@ This is good: `import foo.Bar;`
 
 See more info [here](https://source.android.com/source/code-style.html#fully-qualify-imports)
 
-## 4.2 Java style rules
+## 4.2 Java Style Rules
 
-### 4.2.1 Fields definition and naming
+### 4.2.1 Fields Definition and Naming
 
 Fields should be defined at the __top of the file__ and they should follow the naming rules listed below.
 
@@ -435,7 +443,7 @@ public class MyClass {
 }
 ```
 
-### 4.2.2 Treat acronyms as words
+### 4.2.2 Treat Acronyms as Words
 
 | Good           | Bad            |
 | -------------- | -------------- |
@@ -444,7 +452,7 @@ public class MyClass {
 | `String url`     | `String URL`     |
 | `long id`        | `long ID`        |
 
-### 4.2.3 Use spaces for indentation
+### 4.2.3 Use Spaces for Indentation
 
 Use __4 space__ indents for blocks:
 
@@ -461,7 +469,7 @@ Instrument i =
         someLongExpression(that, wouldNotFit, on, one, line);
 ```
 
-### 4.2.4 Use standard brace style
+### 4.2.4 Use Standard Brace Style
 
 Braces go on the same line as the code before them.
 
@@ -496,7 +504,7 @@ if (condition)
 
 ### 4.2.5 Annotations
 
-#### 4.2.5.1 Annotations practices
+#### 4.2.5.1 Annotations Practices
 
 According to the Android code style guide, the standard practices for some of the predefined annotations in Java are:
 
@@ -506,7 +514,7 @@ According to the Android code style guide, the standard practices for some of th
 
 More information about annotation guidelines can be found [here](http://source.android.com/source/code-style.html#use-standard-java-annotations).
 
-#### 4.2.5.2 Annotations style
+#### 4.2.5.2 Annotations Style
 
 __Classes, Methods and Constructors__
 
@@ -527,13 +535,13 @@ Annotations applying to fields should be listed __on the same line__, unless the
 @Nullable @Mock DataManager mDataManager;
 ```
 
-### 4.2.6 Limit variable scope
+### 4.2.6 Limit Variable Scope
 
 _The scope of local variables should be kept to a minimum (Effective Java Item 29). By doing so, you increase the readability and maintainability of your code and reduce the likelihood of error. Each variable should be declared in the innermost block that encloses all uses of the variable._
 
 _Local variables should be declared at the point they are first used. Nearly every local variable declaration should contain an initializer. If you don't yet have enough information to initialize a variable sensibly, you should postpone the declaration until you do._ - ([Android code style guidelines](https://source.android.com/source/code-style.html#limit-variable-scope))
 
-### 4.2.7 Order import statements
+### 4.2.7 Order Import Statements
 
 If you are using an IDE such as Android Studio, you don't have to worry about this because your IDE is already obeying these rules. If not, have a look below.
 
@@ -551,7 +559,7 @@ To exactly match the IDE settings, the imports should be:
 
 More info [here](https://source.android.com/source/code-style.html#limit-variable-scope)
 
-### 4.2.8 Logging guidelines
+### 4.2.8 Logging Guidelines
 
 Use the logging methods provided by the `Log` class to print out error messages or other information that may be useful for developers to identify issues:
 
@@ -581,7 +589,7 @@ To only show logs on debug builds:
 if (BuildConfig.DEBUG) Log.d(TAG, "The value of x is " + x);
 ```
 
-### 4.2.9 Class member ordering
+### 4.2.9 Class Member Ordering
 
 There is no single correct solution for this but using a __logical__ and __consistent__ order will improve code learnability and readability. It is recommendable to use the following order:
 
@@ -642,7 +650,7 @@ public class MainActivity extends Activity {
 }
 ```
 
-### 4.2.10 Parameter ordering in methods
+### 4.2.10 Parameter Ordering in Methods
 
 When programming for Android, it is quite common to define methods that take a `Context`. If you are writing a method like this, then the __Context__ must be the __first__ parameter.
 
@@ -658,7 +666,7 @@ public User loadUser(Context context, int userId);
 public void loadUserAsync(Context context, int userId, UserCallback callback);
 ```
 
-### 4.2.11 String constants, naming, and values
+### 4.2.11 String Constants, Naming, and Values
 
 Many elements of the Android SDK such as `SharedPreferences`, `Bundle`, or `Intent` use a key-value pair approach so it's very likely that even for a small app you end up having to write a lot of String constants.
 
@@ -719,7 +727,7 @@ __Note 1__: These methods should go at the top of the class before `onCreate()`.
 
 __Note 2__: If we provide the methods described above, the keys for extras and arguments should be `private` because there is not need for them to be exposed outside the class.
 
-### 4.2.13 Line length limit
+### 4.2.13 Line Length Limit
 
 Code lines should not exceed __100 characters__. If the line is longer than this limit there are usually two options to reduce its length:
 
@@ -731,7 +739,7 @@ There are two __exceptions__ where it is possible to have lines longer than 100:
 * Lines that are not possible to split, e.g. long URLs in comments.
 * `package` and `import` statements.
 
-#### 4.2.13.1 Line-wrapping strategies
+#### 4.2.13.1 Line-wrapping Strategies
 
 There isn't an exact formula that explains how to line-wrap and quite often different solutions are valid. However there are a few rules that can be applied to common cases.
 
@@ -783,7 +791,7 @@ loadPicture(context,
         "Title of the picture");
 ```
 
-### 4.2.14 RxJava chains styling
+### 4.2.14 RxJava Chains Styling
 
 Rx chains of operators require line-wrapping. Every operator must go in a new line and the line should be broken before the `.`
 
@@ -805,9 +813,9 @@ public Observable<Location> syncLocations() {
 }
 ```
 
-## 4.3 XML style rules
+## 4.3 XML Style Rules
 
-### 4.3.1 Use self closing tags
+### 4.3.1 Use Self Closing Tags
 
 When an XML element doesn\'t have any contents, you __must__ use self closing tags.
 
@@ -831,11 +839,11 @@ This is __bad__ :
 </TextView>
 ```
 
-### 4.3.2 Resources naming
+### 4.3.2 Resources Naming
 
 Resource IDs and names are written in __lowercase_underscore__.
 
-#### 4.3.2.1 ID naming
+#### 4.3.2.1 ID Naming
 
 IDs should be prefixed with the name of the element in lowercase underscore. For example:
 
@@ -882,7 +890,7 @@ String names start with a prefix that identifies the section they belong to. For
 
 Unless the rest of resources, style names are written in __UpperCamelCase__.
 
-### 4.3.3 Attributes ordering
+### 4.3.3 Attributes Ordering
 
 As a general rule you should try to group similar attributes together. A good way of ordering the most common attributes is:
 
