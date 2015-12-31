@@ -1,16 +1,16 @@
-# Android Studio Guide
+# Android Style Guide
 
 ----------
 
 # Table of Contents
 - [Android Studio Guide](#android-studio-guide)
 	- [Android SDK](#android-sdk)
-	- [Build System](## 1.2 Build system)
-- [Project Guide](# 2. Project Guide)
-	- [Project Structure](## 2.1 Project structure)
-	- [Gradle Configuration](## 2.2 Gradle configuration)
-	- [Proguard configuration](## 2.3 Proguard configuration)
-	- [Libraries](## 2.4 Libraries)
+	- [Build System](#build-system)
+- [Project Guide](#project-guide)
+	- [Project Structure](#project-structure)
+	- [Gradle Configuration](#gradle-configuration)
+	- [Proguard configuration](#proguard-configuration)
+	- [Libraries](#libraries)
 
 
 
