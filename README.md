@@ -3,8 +3,8 @@
 ----------
 
 # Table of Contents
-- [Android Studio Guide](# 1. Android Studio Guide)
-	- [Android SDK](## 1.1 Android SDK)
+- [Android Studio Guide](#1.-android-studio-guide)
+	- [Android SDK](#1.1-android-sdk)
 	- [Build System](## 1.2 Build system)
 - [Project Guide](# 2. Project Guide)
 	- [Project Structure](## 2.1 Project structure)
