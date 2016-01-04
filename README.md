@@ -19,6 +19,43 @@
 - [File Naming](#3-file-naming)
 	- [Class Files](#31-class-files)
 	- [Resources Files](#32-resources-files)
+		- [Drawable Files](#321 Drawable Files)
+		- [Layout Files](#322 Layout Files)
+		- [Menu Files](#323 Menu Files)
+		- [Values Files](#324 Values Files)
+- [Code Guidelines](#4 Code Guidelines)
+	- [Java Language Rules](#41 Java Language Rules)
+		- [Don't Ignore Exceptions](#411 Don't Ignore Exceptions)
+		- [Don't Catch Generic Exception](#412 Don't Catch Generic Exception)
+		- [Don't Use Finalizers](#413 Don't Use Finalizers)
+		- [Fully Qualify Imports](#414 Fully Qualify Imports)
+	- [Java Style Rules](#42 Java Style Rules)
+		- [Fields Definition and Naming](#421 Fields Definition and Naming)
+		- [Treat Acronyms as Words](#422 Treat Acronyms as Words)
+		- [Use Spaces for Indentation](#423 Use Spaces for Indentation)
+		- [Use Standard Brace Style](#424 Use Standard Brace Style)
+		- [Annotations](#425 Annotations)
+			- [Annotations Practices](#4251 Annotations Practices)
+			- [Annotations Style](#4252 Annotations Style)
+		- [Limit Variable Scope](#426 Limit Variable Scope)
+		- [Order Import Statements](#427 Order Import Statements)
+		- [Logging Guidelines](#428 Logging Guidelines)
+		- [Class Member Ordering](#429 Class Member Ordering)
+		- [Parameter Ordering in Methods](#4210 Parameter Ordering in Methods)
+		- [String Constants, Naming, and Values](#4211 String Constants, Naming, and Values)
+		- [Arguments in Fragments and Activities](#4212 Arguments in Fragments and Activities)
+		- [Line Length Limit](#4213 Line Length Limit)
+			- [Line-wrapping Strategies](#42131 Line-wrapping Strategies)
+		- [RxJava Chains Styling](#4214 RxJava Chains Styling)
+	- [XML Style Rules](#43 XML Style Rules)
+		- [Use Self Closing Tags](#431 Use Self Closing Tags)
+		- [Resources Naming](#432 Resources Naming)
+			- [ID Naming](#4321 ID Naming)
+			- [Strings](#4322 Strings)
+			- [Styles and Themes](#4323 Styles and Themes)
+		- [Organising Layouts](#433 Organising Layouts)
+		- [Attributes Ordering](#434 Attributes Ordering)
+
 
 
 
@@ -842,6 +879,7 @@ This is __bad__ :
 ### 4.3.2 Resources Naming
 
 Resource IDs and names are written in __lowercase_underscore__.
+**Naming.** Follow the convention of prefixing the type, as in `type_foo_bar.xml`. Examples: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
 
 #### 4.3.2.1 ID Naming
 
@@ -890,20 +928,7 @@ String names start with a prefix that identifies the section they belong to. For
 
 Unless the rest of resources, style names are written in __UpperCamelCase__.
 
-### 4.3.3 Attributes Ordering
-
-As a general rule you should try to group similar attributes together. A good way of ordering the most common attributes is:
-
-1. View Id
-2. Style
-3. Layout width and layout height
-4. Other layout attributes, sorted alphabetically
-5. Remaining attributes, sorted alphabetically
-
-# TODO Need to sort through this
-## Resources
-
-**Naming.** Follow the convention of prefixing the type, as in `type_foo_bar.xml`. Examples: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
+### 4.3.3 Organising Layouts
 
 **Organizing layout XMLs.** If you're unsure how to format a layout XML, the following convention may help.
 
@@ -1120,3 +1145,13 @@ solo.clickOnText("Preferences");
 solo.clickOnText("Edit File Extensions");
 Assert.assertTrue(solo.searchText("rtf"));
 ```
+
+### 4.3.4 Attributes Ordering
+
+As a general rule you should try to group similar attributes together. A good way of ordering the most common attributes is:
+
+1. View Id
+2. Style
+3. Layout width and layout height
+4. Other layout attributes, sorted alphabetically
+5. Remaining attributes, sorted alphabetically
