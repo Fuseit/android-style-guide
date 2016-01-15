@@ -28,12 +28,12 @@
 		- [Don't Catch Generic Exception](#412-dont-catch-generic-exception)
 		- [Don't Use Finalizers](#413-dont-use-finalizers)
 		- [Fully Qualify Imports](#414-fully-qualify-imports)
-		- [Override equals and hashCode carefully](#415-Override-equals-and-hashCode-carefully)
-		- [Use generics properly](#416-Use-generics-properly)
-		- [Beware of cascading String concatenation](#417-Beware-of-cascading-String-concatenation)
-		- [Treat warning as errors](#418-Treat-warning-as-errors)
-		- [Avoid premature optimisation](#419-Avoid-premature-optimisation)
-		- [Optimise code in the proper order](#4110-Optimise-code-in-the-proper-order)
+		- [Override equals and hashCode carefully](#415-override-equals-and-hashcode-carefully)
+		- [Use generics properly](#416-use-generics-properly)
+		- [Beware of cascading String concatenation](#417-beware-of-cascading-string-concatenation)
+		- [Treat warning as errors](#418-treat-warning-as-errors)
+		- [Avoid premature optimisation](#419-avoid-premature-optimisation)
+		- [Optimise code in the proper order](#4110-optimise-code-in-the-proper-order)
 	- [Java Style Rules](#42-java-style-rules)
 		- [Fields Definition and Naming](#421-fields-definition-and-naming)
 		- [Treat Acronyms as Words](#422-treat-acronyms-as-words)
@@ -60,7 +60,7 @@
 			- [Styles and Themes](#4323-styles-and-themes)
 		- [Organising Layouts](#433-organising-layouts)
 		- [Attributes Ordering](#434-attributes-ordering)
-		- [Performance and Optimisations](#435-Performance-and-Optimisations)
+		- [Performance and Optimisations](#435-performance-and-optimisations)
 
 ----------
 
@@ -1147,7 +1147,7 @@ As a general rule you should try to group similar attributes together. A good wa
 
 ### 4.3.5 Performance and Optimisations
 
-Generally speaking, the most impactful optimisations have to do with rendering the UI properly and avoiding keeping large objects in memory wherever possible. This of course doesn't meen that other optimisations can't be noticed (obviously having a O(n^n) algorithm will block the UI at one point). 
+Generally speaking, the most impactful optimisations have to do with rendering the UI properly and avoiding keeping large objects in memory wherever possible. This of course doesn't mean that other optimisations can't be noticed (obviously having a O(n^n) algorithm will block the UI at one point). 
 
 - avoid heavy duty work in methods like draw();
 - avoid calling findViewById whenever possible (the commonly used ViewHolder pattern is a standard way to avoid this problem)
