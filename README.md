@@ -10,12 +10,11 @@
 	- [Project Structure](#21-project-structure)
 	- [Gradle Configuration](#22-gradle-configuration)
 	- [Proguard Configuration](#23-proguard-configuration)
-	- [Libraries](#24-libraries)
-	- [Activities and Fragments](#25-activities-and-fragments)
-	- [Java Packages Architecture](#26-java-packages-architecture)
-	- [Data Storage](#27-data-storage)
-		- [Shared Preferences](#271-shared-preferences)
-		- [Content Providers](#272-content-providers)
+	- [Activities and Fragments](#24-activities-and-fragments)
+	- [Java Packages Architecture](#25-java-packages-architecture)
+	- [Data Storage](#26-data-storage)
+		- [Shared Preferences](#261-shared-preferences)
+		- [Content Providers](#262-content-providers)
 - [File Naming](#3-file-naming)
 	- [Class Files](#31-class-files)
 	- [Resources Files](#32-resources-files)
@@ -29,6 +28,12 @@
 		- [Don't Catch Generic Exception](#412-dont-catch-generic-exception)
 		- [Don't Use Finalizers](#413-dont-use-finalizers)
 		- [Fully Qualify Imports](#414-fully-qualify-imports)
+		- [Override equals and hashCode carefully](#415-Override-equals-and-hashCode-carefully)
+		- [Use generics properly](#416-Use-generics-properly)
+		- [Beware of cascading String concatenation](#417-Beware-of-cascading-String-concatenation)
+		- [Treat warning as errors](#418-Treat-warning-as-errors)
+		- [Avoid premature optimisation](#419-Avoid-premature-optimisation)
+		- [Optimise code in the proper order](#4110-Optimise-code-in-the-proper-order)
 	- [Java Style Rules](#42-java-style-rules)
 		- [Fields Definition and Naming](#421-fields-definition-and-naming)
 		- [Treat Acronyms as Words](#422-treat-acronyms-as-words)
@@ -55,9 +60,7 @@
 			- [Styles and Themes](#4323-styles-and-themes)
 		- [Organising Layouts](#433-organising-layouts)
 		- [Attributes Ordering](#434-attributes-ordering)
-
-
-
+		- [Performance and Optimisations](#435-Performance-and-Optimisations)
 
 ----------
 
@@ -234,51 +237,7 @@ Read more at [Proguard](http://proguard.sourceforge.net/#manual/examples.html) f
 
 **DexGuard**. If you need hard-core tools for optimizing, and specially obfuscating release code, consider [DexGuard](http://www.saikoa.com/dexguard), a commercial software made by the same team that built ProGuard. It can also easily split Dex files to solve the 65k methods limitation.
 
-## 2.4 Libraries
-
-**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for converting Objects into JSON and vice-versa. [Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Keep in mind, though, that Jackson is a larger library than GSON, so depending on your case, you might prefer GSON to avoid 65k methods limitation. Other alternatives: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
-
-**Networking, caching, and images.**  
-[Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images, and [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests. All three Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
-
-**RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful and promising paradigm, which can also be confusing since it's so different. We recommend to take some caution before using this library to architect the entire application. There are some projects done by us using RxJava, if you need help talk to one of these people: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. We have written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
-
-If you have no previous experience with Rx, start by applying it only for responses from the API. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write Javadocs on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help them understand your code and also Rx.
-
-**[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style with for example with RxJava. To use it, install JDK8, set that as your SDK Location in the Android Studio Project Structure dialog, and set `JAVA8_HOME` and `JAVA7_HOME` environment variables, then in the project root build.gradle:
-
-```groovy
-dependencies {
-    classpath 'me.tatarka:gradle-retrolambda:2.4.1'
-}
-```
-
-and in each module's build.gradle, add
-
-```groovy
-apply plugin: 'retrolambda'
-
-android {
-    compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-}
-
-retrolambda {
-    jdk System.getenv("JAVA8_HOME")
-    oldJdk System.getenv("JAVA7_HOME")
-    javaVersion JavaVersion.VERSION_1_7
-}
-```
-
-Android Studio offers code assist support for Java8 lambdas. If you are new to lambdas, just use the following to get started:
-
-- Any interface with just one method is "lambda friendly" and can be folded into the more tight syntax
-- If in doubt about parameters and such, write a normal anon inner class and then let Android Studio fold it into a lambda for you.
-
-**Beware of the dex method limitation, and avoid using many libraries.** Android apps, when packaged as a dex file, have a hard limitation of 65536 referenced methods [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). You will see a fatal error on compilation if you pass the limit. For that reason, use a minimal amount of libraries, and use the [dex-method-counts](https://github.com/mihaip/dex-method-counts) tool to determine which set of libraries can be used in order to stay under the limit. Especially avoid using the Guava library, since it contains over 13k methods.
-
-## 2.5 Activities and Fragments
+## 2.4 Activities and Fragments
 
 There is no consensus among the community nor Fuse developers how to best organize Android architectures with Fragments and Activities. Square even has [a library for building architectures mostly with Views](https://github.com/square/mortar), bypassing the need for Fragments, but this still is not considered a widely recommendable practice in the community.
 
@@ -287,6 +246,8 @@ Because of Android API's history, you can loosely consider Fragments as UI piece
 - Avoid using [nested fragments](https://developer.android.com/about/versions/android-4.2.html#NestedFragments) extensively, because [matryoshka bugs](http://delyan.me/android-s-matryoshka-problem/) can occur. Use nested fragments only when it makes sense (for instance, fragments in a horizontally-sliding ViewPager inside a screen-like fragment) or if it's a well-informed decision.
 - Avoid putting too much code in activities. Whenever possible, keep them as lightweight containers, existing in your application primarily for the lifecycle and other important Android-interfacing APIs. Prefer single-fragment activities instead of plain activities - put UI code into the activity's fragment. This makes it reusable in case you need to change it to reside in a tabbed layout, or in a multi-fragment tablet screen. Avoid having an activity without a corresponding fragment, unless you are making an informed decision.
 - Don't abuse Android-level APIs such as heavily relying on Intent for your app's internal workings. You could affect the Android OS or other applications, creating bugs or lag. For instance, it is known that if your app uses Intents for internal communication between your packages, you might incur multi-second lag on user experience if the app was opened just after OS boot.
+- Pay special attention to UI re-creation and be sure you handle that scenario properly. Keep in mind that the UI might be destroyed for various reasons (e.g. app put in background, layout orientation change)
+- Do not rely on custom constructors for Fragments and Activities. These should __always__ have default constructors available to ensure the OS can re-create then when necessary.
 
 ## 2.6 Java Packages Architecture
 
@@ -314,9 +275,9 @@ com.fuse.project
    └─ notifications
 ```
 
-## 2.7 Data Storage
+## 2.6 Data Storage
 
-### 2.7.1 Shared Preferences
+### 2.6.1 Shared Preferences
 
 If you only need to persist simple flags and your application runs in a single process SharedPreferences is probably enough for you. It is a good default option.
 
@@ -325,7 +286,7 @@ There are two reasons why you might not want to use SharedPreferences:
 * *Performance*: Your data is complex or there is a lot of it
 * *Multiple processes accessing the data*: You have widgets or remote services that run in their own processes and require synchronized data
 
-### 2.7.2 Content Providers
+### 2.6.2 Content Providers
 
 In the case SharedPreferences is not enough for you, you should use the platform standard ContentProviders, which are fast and process safe.
 
@@ -456,15 +417,37 @@ This is good: `import foo.Bar;`
 
 See more info [here](https://source.android.com/source/code-style.html#fully-qualify-imports)
 
+### 4.1.5 Override equals and hashCode carefully
+This corresponds to Items 7 and 8 in Effective Java (2nd edition). 
+- The first item explaines that it's very difficult to extend an instantiable class and add state to the derived class without breaking the _equals()_ contract.
+- The second item requires _equals()_ and _hashCode()_ to be overriden together. The reason is to ensure that the classes in question will work properly with hash-based collections, which use both _hashCode()_ and _equals()_.
+
+### 4.1.6 Use generics properly
+Avoid using raw types when dealing with generics. This should be obvious as it prevents type-safety checks. The only acceptable usage of raw types is when dealing with improperly written (or really old) third party libraries.
+
+Secondly, perfer writing generic code to non-generic code. Whenever it's possible and the extra effort/code isn't considerable, generic code has a much larger chance of being reused. This is especially true when dealing with logic/algorithms rather than anything else (e.g. UI), but it's not exclusive to it.
+
+### 4.1.7 Beware of cascading String concatenation
+A consequence of strings being immutable is that the time to concatenate n strings is quadratic in n. The best way to avoid this is by using a  __StringBuilder__ whenever multiple concatenations are required.
+
+### 4.1.8 Treat warning as errors
+Compiler warnings can provide some additional insight and quality controls on your codebase.  They can tell you about obsolete code, unused variables, and many other items that you wouldn’t necessarily see on visual inspection.  Warnings can also surface bugs, such as possible null reference exceptions, or expressions that always evaluate to “true”.
+
+However, compiler warnings can be easily ignored.  Ignore them for long enough, and important warnings can be lost in a sea of “acceptable” warnings. For higher quality code, warnings should always be treated with the same attention as errors.
+
+### 4.1.9 Avoid premature optimisation
+This famous aphorism is usually attributed to Donald Knuth: "Premature optimisation is the root of all evil". The general rule is: first make sure the code runs, then and _only_ then worry about how fast it runs. Clear, simple and easy to understand code is more likely to work properly and is easy to optimise, whereas complex code is hard to debug and maintain (even if it's fast).
+
+### 4.1.10 Optimise code in the proper order
+Optimisation should always start from a necessity. If the code is too slow, the best way to find the root cause is by benchmarking. After the troublesome code has been found, always optimise the _algorithmic complexity_. Avoid mini-optimisations as they seldom cause any noticeable improvements. Notable exceptions are Android-specific cases.
+
 ## 4.2 Java Style Rules
 
 ### 4.2.1 Fields Definition and Naming
 
 Fields should be defined at the __top of the file__ and they should follow the naming rules listed below.
 
-* Private, non-static field names start with __m__.
-* Private, static field names start with __s__.
-* Other fields start with a lower case letter.
+* Fields start with a lower case letter.
 * Static final fields (constants) are ALL_CAPS_WITH_UNDERSCORES.
 
 Example:
@@ -574,9 +557,11 @@ Annotations applying to fields should be listed __on the same line__, unless the
 
 ### 4.2.6 Limit Variable Scope
 
-_The scope of local variables should be kept to a minimum (Effective Java Item 29). By doing so, you increase the readability and maintainability of your code and reduce the likelihood of error. Each variable should be declared in the innermost block that encloses all uses of the variable._
+The scope of local variables should be kept to a minimum (Effective Java Item 29). By doing so, you increase the readability and maintainability of your code and reduce the likelihood of error. Each variable should be declared in the innermost block that encloses all uses of the variable._
 
-_Local variables should be declared at the point they are first used. Nearly every local variable declaration should contain an initializer. If you don't yet have enough information to initialize a variable sensibly, you should postpone the declaration until you do._ - ([Android code style guidelines](https://source.android.com/source/code-style.html#limit-variable-scope))
+Local variables should be declared at the point they are first used. Nearly every local variable declaration should contain an initializer. If you don't yet have enough information to initialize a variable sensibly, you should postpone the declaration until you do._ - ([Android code style guidelines](https://source.android.com/source/code-style.html#limit-variable-scope))
+
+A consequence of this rule is that members of classes should have as narrow a visibility as possible. Fields should __never__ be public and __rarely__ be protected. Each class is responsible of its own members. By exposing its internals, it becomes unclear who is responsible for managing them. As a general rule, don't expose anything related to the implementation of a class.
 
 ### 4.2.7 Order Import Statements
 
@@ -998,7 +983,7 @@ You probably will need to do the same for buttons, but don't stop there yet. Go 
 
 **`colors.xml` is a color palette.** There should be nothing else in your `colors.xml` than just a mapping from a color name to an RGBA value. Do not use it to define RGBA values for different types of buttons.
 
-*Don't do this:*
+*Don't do just this:*
 
 ```xml
 <resources>
@@ -1014,23 +999,27 @@ You probably will need to do the same for buttons, but don't stop there yet. Go 
 
 You can easily start repeating RGBA values in this format, and that makes it complicated to change a basic color if needed. Also, those definitions are related to some context, like "button" or "comment", and should live in a button style, not in `colors.xml`.
 
-Instead, do this:
+Instead, consider **adding** this:
 
 ```xml
 <resources>
 
     <!-- grayscale -->
-    <color name="white"     >#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="gray_light">#DBDBDB</color>
-    <color name="gray"      >#939393</color>
-    <color name="gray_dark" >#5F5F5F</color>
-    <color name="black"     >#323232</color>
+    <color name="gray">#939393</color>
+    <color name="gray_dark">#5F5F5F</color>
+    <color name="black">#323232</color>
 
     <!-- basic colors -->
     <color name="green">#27D34D</color>
     <color name="blue">#2A91BD</color>
     <color name="orange">#FF9D2F</color>
     <color name="red">#FF432F</color>
+    
+    <!-- this makes it easyer to change at different levels -->
+    <color name="button_foreground">@color/white</color>
+    <!-- ... -->
 
 </resources>
 ```
@@ -1155,3 +1144,15 @@ As a general rule you should try to group similar attributes together. A good wa
 3. Layout width and layout height
 4. Other layout attributes, sorted alphabetically
 5. Remaining attributes, sorted alphabetically
+
+### 4.3.5 Performance and Optimisations
+
+Generally speaking, the most impactful optimisations have to do with rendering the UI properly and avoiding keeping large objects in memory wherever possible. This of course doesn't meen that other optimisations can't be noticed (obviously having a O(n^n) algorithm will block the UI at one point). 
+
+- avoid heavy duty work in methods like draw();
+- avoid calling findViewById whenever possible (the commonly used ViewHolder pattern is a standard way to avoid this problem)
+- Be careful when dealing with references to UI objects: this is a common source of memory leaks
+- never reference the UI from a background thread
+- ensure good UI responsiveness by avoiding time-consuming work to be performed on the UI thread.
+
+Finally, remember the important principles in optimising: always benchmark first, optimise only that which you __know__ needs it (don't optimise prematurely!).
