@@ -8,7 +8,7 @@ If you need to deploy to production by promoting the alpha or beta channels then
 - [Deploying via Fastlane](#1-deploying-via-fastlane)
 - [Deploying via Android Studio](#2-deploying-via-android-studio)
 - [Deploying via React Native](#3-deploying-via-react-native)
-- [Deploying APK via Google Play Store](#4-deploying-apk-via-google-play-store)
+- [Deploy APK via Google Play Store](#4-deploy-apk-via-google-play-store)
 
 ## 1. Deploying via Fastlane
 This is by far the easiest way to deploy but can be error prone. After following the steps below and getting an unsuccessful deployment then resort to one of the other method of deploying.
