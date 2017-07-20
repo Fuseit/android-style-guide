@@ -7,7 +7,7 @@ If you need to deploy to production by promoting the alpha or beta channels then
 # Table of contents
 - [Deploying via Fastlane](#1-deploying-via-fastlane)
 - [Deploying via Android Studio](#2-deploying-via-android-studio)
-- [Deploying via React Native (Terminal)](#3-deploying-via-react-native-(terminal))
+- [Deploying via React Native](#3-deploying-via-react-native)
 - [Deploying APK via Google Play Store](#4-deploying-apk-via-google-play-store)
 
 ## 1. Deploying via Fastlane
@@ -57,9 +57,10 @@ This is by far the easiest way to deploy but can be error prone. After following
 16. Refer to the [Deploying via Google Play Store](#4-deploying-via-google-play-store) section to continue the process
 17. Once successfully deployed you will need to commit the file where the build and version numbers were changed into beta. This is important as the next deployment will use these number to again increment them.
 
-## 3. Deploying via React Native (Terminal)
+## 3. Deploying via React Native
 #### 3.1 Prerequisite: 
 * If this is the first time deploying via any means you will need to set up the keystore and passwords by performing steps 3 to 9 from [Deploying via Android Studio](#2-deploying-via-android-studio).
+* Use the terminal for the steps in the procedure section
 
 ### 3.2 Procedure
 1. Check out the beta branch locally.
