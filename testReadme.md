@@ -73,12 +73,12 @@ This is by far the easiest way to deploy but can be error prone. After following
 4.1 FuseMobile/android/app/build/outputs/apk
 5. The apk you want to deploy should look something like this:
 5.1 app-dev-release.apk or app-princestrust-release.apk depending on the flavour you chose. A key point is to ensure the word ‘release’ appears in the name, if not then you will need to restart the process.
-6. Continue with the deployment process by following the [Deploying via Google Play Store](#4-deploying-via-google-play-store) process.
+6. Continue with the deployment process by following the [Deploy APK via Google Play Store](#4-deploy-apk-via-google-play-store) process.
 7. Once successfully deployed you will need to commit the file where the build and version numbers were changed into beta. This is important as the next deployment will use these number to again increment them.
 
 ## 4. Deploy APK via Google Play Store
 ### 4.1 Prerequisite
-* You will need an apk file to upload. Refer to [Deploying via Android Studio](#2-deploying-via-android-studio) or [Deploying via React Native (Terminal)](#3-deploying-via-react-native(terminal)) 
+* You will need an apk file to upload. Refer to [Deploying via Android Studio](#2-deploying-via-android-studio) or [Deploying via React Native](#3-deploying-via-react-native) 
 * You will need login details with the appropriate access in order to deploy via the play store
 ### 4.2 Proceedure
 1. Log in using your credentials
@@ -94,7 +94,7 @@ This is by far the easiest way to deploy but can be error prone. After following
 ### 4.3 Post Deployment
 The follow section is only for promoting either the alpha or beta versions of the app to production. While the previous methods can also used to deploy to production. Ideally we only want to promote a version of the app to production once it has been in either the alpha or beta channels and QA has signed off.
 
-1. Repeat steps 1 to 4 in the [Deploying via Google Play Store](#4-deploying-via-google-play-store) section, but instead of clicking “Manage Alpha” click either “Manage Alpha” or  “Manage Beta” depending on which channel you want to promote.
+1. Repeat steps 1 to 4 in the [Deploy APK via Google Play Store](#4-deploy-apk-via-google-play-store) section, but instead of clicking “Manage Alpha” click either “Manage Alpha” or  “Manage Beta” depending on which channel you want to promote.
 2. Select one of the following options “Release to Production” or  “Release to (Beta or Alpha)”. 
-3. Repeat steps 7 and 8 in the [Deploying via Google Play Store](#4-deploying-via-google-play-store) section to complete the promotion process
+3. Repeat steps 7 and 8 in the [Deploy APK via Google Play Store](#4-deploy-apk-via-google-play-store) section to complete the promotion process
 
