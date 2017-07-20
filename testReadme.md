@@ -54,7 +54,7 @@ This is by far the easiest way to deploy but can be error prone. After following
 13.2 For Prince’s Trust select *princestrust*
 14. Press finish which will kick off the building process. This might take a few minutes
 15. Once finished a popup will be displayed that gives you the option to “reveal in finder”. If not check the status at the bottom of Android Studio which should say “Generate Signed APK generated successfully”. If the pop up has disappeared before you could click it you can click on the status bar to open the events console where you will be able to select “Reveal in finder” again or simply navigate to where you set the output destination to.
-16. Refer to the [Deploying via Google Play Store](#4-deploying-via-google-play-store) section to continue the process
+16. Refer to the [Deploy APK via Google Play Store](#4-deploy-apk-via-google-play-store) section to continue the process
 17. Once successfully deployed you will need to commit the file where the build and version numbers were changed into beta. This is important as the next deployment will use these number to again increment them.
 
 ## 3. Deploying via React Native
